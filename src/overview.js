@@ -211,11 +211,27 @@ export const Overview = class {
   _activateApp(appIndex, modifiers) {
     console.log('Overview._activateApp() called - dash-to-panel - ASDASDASDASD')
     console.log(`appIndex: ${appIndex}, modifiers: ${modifiers}`)
+    
+    // Mouse'un bulunduğu monitördeki panel'i bul
+    let [mouseX, mouseY] = global.get_pointer()
+    let targetPanel = this._panel
+    
+    for (let panel of this._panel.panelManager.allPanels) {
+      let monitor = panel.monitor
+      if (mouseX >= monitor.x && mouseX < monitor.x + monitor.width &&
+          mouseY >= monitor.y && mouseY < monitor.y + monitor.height) {
+        targetPanel = panel
+        break
+      }
+    }
+    
+    console.log(`Mouse at monitor: ${targetPanel.monitor.index}`)
+    
     let seenApps = {}
     let apps = []
 
-    this.taskbar._getAppIcons().forEach((appIcon) => {
-      if (!seenApps[appIcon.app] || this.taskbar.allowSplitApps) {
+    targetPanel.taskbar._getAppIcons().forEach((appIcon) => {
+      if (!seenApps[appIcon.app] || targetPanel.taskbar.allowSplitApps) {
         apps.push(appIcon)
       }
 
@@ -281,7 +297,7 @@ export const Overview = class {
         // Activate with button = 1, i.e. same as left click
         let button = 1
         this._endHotkeyPreviewCycle()
-        appIcon.activate(button, modifiers, !this.taskbar.allowSplitApps)
+        appIcon.activate(button, modifiers, !targetPanel.taskbar.allowSplitApps)
       }
     }
   }
