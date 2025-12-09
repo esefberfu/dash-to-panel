@@ -240,9 +240,109 @@ export const Overview = class {
 
     this._showOverlay()
 
+    let appIcon = null
+    
     if (appIndex < apps.length) {
-      let appIcon = apps[appIndex]
-      let seenAppCount = seenApps[appIcon.app]
+      // Mevcut monitörde bu index'te uygulama ikonı var
+      appIcon = apps[appIndex]
+      console.log(`Found app icon at index ${appIndex} on current monitor`)
+      
+      // Uygulamanın TÜM pencerelerini kontrol et (app.get_windows())
+      let windows = appIcon.app.get_windows()
+      let hasWindowOnCurrentMonitor = false
+      let hasWindowOnOtherMonitor = false
+      
+      console.log(`App '${appIcon.app.get_name()}' has ${windows.length} total windows`)
+      
+      for (let win of windows) {
+        let winMonitor = win.get_monitor()
+        console.log(`  Window on monitor: ${winMonitor}`)
+        if (winMonitor === targetPanel.monitor.index) {
+          hasWindowOnCurrentMonitor = true
+        } else {
+          hasWindowOnOtherMonitor = true
+        }
+      }
+      
+      console.log(`hasWindowOnCurrentMonitor: ${hasWindowOnCurrentMonitor}, hasWindowOnOtherMonitor: ${hasWindowOnOtherMonitor}`)
+      
+      // Eğer bu monitörde açık penceresi yoksa ama başka monitörde varsa, diğer monitörlerde ara
+      if (!hasWindowOnCurrentMonitor && hasWindowOnOtherMonitor) {
+        console.log(`App icon exists but no window on current monitor, checking other monitors...`)
+        
+        for (let panel of this._panel.panelManager.allPanels) {
+          if (panel === targetPanel) continue
+          
+          let otherSeenApps = {}
+          let otherApps = []
+          
+          panel.taskbar._getAppIcons().forEach((icon) => {
+            if (!otherSeenApps[icon.app] || panel.taskbar.allowSplitApps) {
+              otherApps.push(icon)
+            }
+            otherSeenApps[icon.app] = (otherSeenApps[icon.app] || 0) + 1
+          })
+          
+          if (appIndex < otherApps.length && otherApps[appIndex].app === appIcon.app) {
+            // Aynı uygulama, bu monitörde penceresi var mı?
+            let windows = otherApps[appIndex].app.get_windows()
+            for (let win of windows) {
+              if (win.get_monitor() === panel.monitor.index) {
+                console.log(`Found window on monitor ${panel.monitor.index}, switching to that panel`)
+                appIcon = otherApps[appIndex]
+                targetPanel = panel
+                break
+              }
+            }
+            if (targetPanel !== panel) continue
+            break
+          }
+        }
+      }
+    } else {
+      // Mevcut monitörde bu index'te uygulama yok, diğer monitörlerde ara
+      console.log(`App index ${appIndex} not found on current monitor (only ${apps.length} apps), checking other monitors...`)
+      
+      for (let panel of this._panel.panelManager.allPanels) {
+        if (panel === targetPanel) continue
+        
+        let otherSeenApps = {}
+        let otherApps = []
+        
+        panel.taskbar._getAppIcons().forEach((appIcon) => {
+          if (!otherSeenApps[appIcon.app] || panel.taskbar.allowSplitApps) {
+            otherApps.push(appIcon)
+          }
+          otherSeenApps[appIcon.app] = (otherSeenApps[appIcon.app] || 0) + 1
+        })
+        
+        if (appIndex < otherApps.length) {
+          console.log(`Found app at index ${appIndex} on monitor ${panel.monitor.index}`)
+          appIcon = otherApps[appIndex]
+          targetPanel = panel
+          break
+        }
+      }
+      
+      if (!appIcon) {
+        console.log(`App index ${appIndex} not found on any monitor`)
+        return
+      }
+    }
+    
+    if (appIcon) {
+      // targetPanel'deki seenApps'i kullan (hangi monitörden bulunduğuna göre)
+      let currentSeenApps = {}
+      let currentApps = []
+      
+      targetPanel.taskbar._getAppIcons().forEach((icon) => {
+        if (!currentSeenApps[icon.app] || targetPanel.taskbar.allowSplitApps) {
+          currentApps.push(icon)
+        }
+        currentSeenApps[icon.app] = (currentSeenApps[icon.app] || 0) + 1
+      })
+      
+      let seenAppCount = currentSeenApps[appIcon.app] || 0
       let windowCount =
         appIcon.window || appIcon._hotkeysCycle
           ? seenAppCount
