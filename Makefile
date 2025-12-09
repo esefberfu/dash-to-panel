@@ -21,6 +21,7 @@ INSTALLNAME = dash-to-panel@jderose9.github.com
 # in the metadata and in the generated zip-file. If no VERSION is passed, the
 # version is pulled from the latest git tag and the current commit SHA1 is
 # added to the metadata
+VERSION = 73
 ifdef VERSION
     ifdef TARGET
 		FILESUFFIX = _v$(VERSION)_$(TARGET)

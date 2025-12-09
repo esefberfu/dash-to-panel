@@ -397,6 +397,59 @@ export const Overview = class {
         // Activate with button = 1, i.e. same as left click
         let button = 1
         this._endHotkeyPreviewCycle()
+        
+        // Eğer birden fazla pencere varsa, akıllı davranış
+        if (appIcon._nWindows > 1) {
+          let windows = appIcon.app.get_windows()
+          let currentMonitorWindows = []
+          
+          // Bu monitördeki pencereleri topla
+          for (let win of windows) {
+            if (win.get_monitor() === targetPanel.monitor.index) {
+              currentMonitorWindows.push(win)
+            }
+          }
+          
+          console.log(`App has ${currentMonitorWindows.length} windows on current monitor`)
+          
+          if (currentMonitorWindows.length > 1) {
+            // Birden fazla pencere var
+            // Şu anda aktif olan pencere bu uygulamadan mı?
+            let focusedWindow = global.display.get_focus_window()
+            let isFocused = focusedWindow && currentMonitorWindows.includes(focusedWindow)
+            
+            console.log(`App is currently focused: ${isFocused}`)
+            
+            if (isFocused) {
+              // Uygulama zaten aktif, döngüye devam et (cycle to next window)
+              let currentIndex = currentMonitorWindows.indexOf(focusedWindow)
+              let nextIndex = (currentIndex + 1) % currentMonitorWindows.length
+              let nextWindow = currentMonitorWindows[nextIndex]
+              console.log(`Cycling to next window (${currentIndex} -> ${nextIndex})`)
+              Main.activateWindow(nextWindow)
+              return
+            } else {
+              // Uygulama aktif değil, en son kullanılan pencereyi getir
+              let mostRecentWindow = null
+              let mostRecentTime = 0
+              
+              for (let win of currentMonitorWindows) {
+                let userTime = win.get_user_time()
+                if (userTime > mostRecentTime) {
+                  mostRecentTime = userTime
+                  mostRecentWindow = win
+                }
+              }
+              
+              if (mostRecentWindow) {
+                console.log(`Activating most recent window`)
+                Main.activateWindow(mostRecentWindow)
+                return
+              }
+            }
+          }
+        }
+        
         appIcon.activate(button, modifiers, !targetPanel.taskbar.allowSplitApps)
       }
     }
