@@ -48,7 +48,7 @@ const T2 = 'numberOverlayTimeout'
 export const Overview = class {
   constructor(panelManager) {
     this._injectionManager = new InjectionManager()
-    this._numHotkeys = 10
+    this._numHotkeys = 20
     this._panelManager = panelManager
   }
 
@@ -209,6 +209,8 @@ export const Overview = class {
 
   // Hotkeys
   _activateApp(appIndex, modifiers) {
+    console.log('Overview._activateApp() called - dash-to-panel - ASDASDASDASD')
+    console.log(`appIndex: ${appIndex}, modifiers: ${modifiers}`)
     let seenApps = {}
     let apps = []
 
@@ -362,7 +364,8 @@ export const Overview = class {
       modifiers |=
         key.indexOf('-ctrl-') >= 0 ? Clutter.ModifierType.CONTROL_MASK : 0
 
-      for (let i = 0; i < this._numHotkeys; i++) {
+      // İlk 10 uygulama için Win+1-0 (veya Win+Shift/Ctrl+1-0)
+      for (let i = 0; i < 10; i++) {
         let appNum = i
 
         Utils.addKeybinding(key + (i + 1), SETTINGS, () =>
@@ -370,6 +373,33 @@ export const Overview = class {
         )
       }
     }, this)
+
+    // İkinci 10 uygulama için Win+Alt+0-9
+    if (bothNumKeys || numRowKeys) {
+      let altModifiers = prefixModifiers | Clutter.ModifierType.MOD1_MASK
+      
+      for (let i = 0; i < 10; i++) {
+        let appNum = i + 10 // 10-19 arası
+        let keyNum = (i + 1) % 10 // 1,2,3...9,0
+
+        Utils.addKeybinding('app-alt-hotkey-' + keyNum, SETTINGS, () =>
+          this._activateApp(appNum, altModifiers),
+        )
+      }
+    }
+
+    if (bothNumKeys || shortcutNumKeys == 'NUM_KEYPAD') {
+      let altModifiers = prefixModifiers | Clutter.ModifierType.MOD1_MASK
+      
+      for (let i = 0; i < 10; i++) {
+        let appNum = i + 10
+        let keyNum = (i + 1) % 10
+
+        Utils.addKeybinding('app-alt-hotkey-kp-' + keyNum, SETTINGS, () =>
+          this._activateApp(appNum, altModifiers),
+        )
+      }
+    }
 
     this._hotKeysEnabled = true
 
@@ -390,11 +420,19 @@ export const Overview = class {
       'app-ctrl-hotkey-kp-', // Key-pad numbers
     ]
 
+    // İlk 10 kısayolu kaldır
     keys.forEach(function (key) {
-      for (let i = 0; i < this._numHotkeys; i++) {
+      for (let i = 0; i < 10; i++) {
         Utils.removeKeybinding(key + (i + 1))
       }
     }, this)
+
+    // Win+Alt+0-9 kısayollarını kaldır
+    for (let i = 0; i < 10; i++) {
+      let keyNum = (i + 1) % 10
+      Utils.removeKeybinding('app-alt-hotkey-' + keyNum)
+      Utils.removeKeybinding('app-alt-hotkey-kp-' + keyNum)
+    }
 
     if (Main.wm._switchToApplication) {
       let gsSettings = new Gio.Settings({

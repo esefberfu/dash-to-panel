@@ -1385,6 +1385,146 @@
         Keybinding to either show or launch the 10th application in the dash.
       </description>
     </key>
+    <key name="app-alt-hotkey-1" type="as">
+      <default><![CDATA[['<Alt><Super>1']]]></default>
+      <summary>Keybinding to trigger 11th dash app</summary>
+      <description>
+        Keybinding to either show or launch the 11th application in the dash.
+      </description>
+    </key>
+    <key name="app-alt-hotkey-2" type="as">
+      <default><![CDATA[['<Alt><Super>2']]]></default>
+      <summary>Keybinding to trigger 12th dash app</summary>
+      <description>
+        Keybinding to either show or launch the 12th application in the dash.
+      </description>
+    </key>
+    <key name="app-alt-hotkey-3" type="as">
+      <default><![CDATA[['<Alt><Super>3']]]></default>
+      <summary>Keybinding to trigger 13th dash app</summary>
+      <description>
+        Keybinding to either show or launch the 13th application in the dash.
+      </description>
+    </key>
+    <key name="app-alt-hotkey-4" type="as">
+      <default><![CDATA[['<Alt><Super>4']]]></default>
+      <summary>Keybinding to trigger 14th dash app</summary>
+      <description>
+        Keybinding to either show or launch the 14th application in the dash.
+      </description>
+    </key>
+    <key name="app-alt-hotkey-5" type="as">
+      <default><![CDATA[['<Alt><Super>5']]]></default>
+      <summary>Keybinding to trigger 15th dash app</summary>
+      <description>
+        Keybinding to either show or launch the 15th application in the dash.
+      </description>
+    </key>
+    <key name="app-alt-hotkey-6" type="as">
+      <default><![CDATA[['<Alt><Super>6']]]></default>
+      <summary>Keybinding to trigger 16th dash app</summary>
+      <description>
+        Keybinding to either show or launch the 16th application in the dash.
+      </description>
+    </key>
+    <key name="app-alt-hotkey-7" type="as">
+      <default><![CDATA[['<Alt><Super>7']]]></default>
+      <summary>Keybinding to trigger 17th dash app</summary>
+      <description>
+        Keybinding to either show or launch the 17th application in the dash.
+      </description>
+    </key>
+    <key name="app-alt-hotkey-8" type="as">
+      <default><![CDATA[['<Alt><Super>8']]]></default>
+      <summary>Keybinding to trigger 18th dash app</summary>
+      <description>
+        Keybinding to either show or launch the 18th application in the dash.
+      </description>
+    </key>
+    <key name="app-alt-hotkey-9" type="as">
+      <default><![CDATA[['<Alt><Super>9']]]></default>
+      <summary>Keybinding to trigger 19th dash app</summary>
+      <description>
+        Keybinding to either show or launch the 19th application in the dash.
+      </description>
+    </key>
+    <key name="app-alt-hotkey-0" type="as">
+      <default><![CDATA[['<Alt><Super>0']]]></default>
+      <summary>Keybinding to trigger 20th dash app</summary>
+      <description>
+        Keybinding to either show or launch the 20th application in the dash.
+      </description>
+    </key>
+    <key name="app-alt-hotkey-kp-1" type="as">
+      <default><![CDATA[['<Alt><Super>KP_1']]]></default>
+      <summary>Keybinding to trigger 11th dash app</summary>
+      <description>
+        Keybinding to either show or launch the 11th application in the dash.
+      </description>
+    </key>
+    <key name="app-alt-hotkey-kp-2" type="as">
+      <default><![CDATA[['<Alt><Super>KP_2']]]></default>
+      <summary>Keybinding to trigger 12th dash app</summary>
+      <description>
+        Keybinding to either show or launch the 12th application in the dash.
+      </description>
+    </key>
+    <key name="app-alt-hotkey-kp-3" type="as">
+      <default><![CDATA[['<Alt><Super>KP_3']]]></default>
+      <summary>Keybinding to trigger 13th dash app</summary>
+      <description>
+        Keybinding to either show or launch the 13th application in the dash.
+      </description>
+    </key>
+    <key name="app-alt-hotkey-kp-4" type="as">
+      <default><![CDATA[['<Alt><Super>KP_4']]]></default>
+      <summary>Keybinding to trigger 14th dash app</summary>
+      <description>
+        Keybinding to either show or launch the 14th application in the dash.
+      </description>
+    </key>
+    <key name="app-alt-hotkey-kp-5" type="as">
+      <default><![CDATA[['<Alt><Super>KP_5']]]></default>
+      <summary>Keybinding to trigger 15th dash app</summary>
+      <description>
+        Keybinding to either show or launch the 15th application in the dash.
+      </description>
+    </key>
+    <key name="app-alt-hotkey-kp-6" type="as">
+      <default><![CDATA[['<Alt><Super>KP_6']]]></default>
+      <summary>Keybinding to trigger 16th dash app</summary>
+      <description>
+        Keybinding to either show or launch the 16th application in the dash.
+      </description>
+    </key>
+    <key name="app-alt-hotkey-kp-7" type="as">
+      <default><![CDATA[['<Alt><Super>KP_7']]]></default>
+      <summary>Keybinding to trigger 17th dash app</summary>
+      <description>
+        Keybinding to either show or launch the 17th application in the dash.
+      </description>
+    </key>
+    <key name="app-alt-hotkey-kp-8" type="as">
+      <default><![CDATA[['<Alt><Super>KP_8']]]></default>
+      <summary>Keybinding to trigger 18th dash app</summary>
+      <description>
+        Keybinding to either show or launch the 18th application in the dash.
+      </description>
+    </key>
+    <key name="app-alt-hotkey-kp-9" type="as">
+      <default><![CDATA[['<Alt><Super>KP_9']]]></default>
+      <summary>Keybinding to trigger 19th dash app</summary>
+      <description>
+        Keybinding to either show or launch the 19th application in the dash.
+      </description>
+    </key>
+    <key name="app-alt-hotkey-kp-0" type="as">
+      <default><![CDATA[['<Alt><Super>KP_0']]]></default>
+      <summary>Keybinding to trigger 20th dash app</summary>
+      <description>
+        Keybinding to either show or launch the 20th application in the dash.
+      </description>
+    </key>
      <key type="b" name="progress-show-bar">
       <default>true</default>
       <summary>Show progress bar on app icon</summary>
