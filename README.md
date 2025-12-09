@@ -78,6 +78,19 @@ Beyond that, just about every aspect of the panel is fully customizable. From po
 |![](media/design/png/indicators-num.png.png)|
 |Optionally launch your favorite applications via keyboard|
 
+### Enhanced Multi-Monitor Hotkey Support
+
+This fork adds intelligent multi-monitor keyboard shortcuts with the following features:
+
+- **Extended Hotkeys**: Support for up to 20 applications (Win+1-0 for first 10, Win+Alt+1-0 for next 10)
+- **Context-Aware Activation**: Hotkeys intelligently detect which monitor your mouse is on and activate applications from that monitor's taskbar
+- **Smart Window Management**: 
+  - If an app icon exists on the current monitor but the window is on another monitor, the hotkey will focus the existing window instead of opening a new one
+  - If an app doesn't exist on the current monitor's taskbar, it will search other monitors and activate the app there
+  - Only opens a new window if the app isn't running anywhere
+
+This makes multi-monitor workflows much more intuitive - you can use the same hotkey (e.g., Win+1) to access different applications depending on which monitor you're working on, while still being able to reach applications running on other monitors when needed.
+
 ##
 
 |Panel Intellihide|
