@@ -87,7 +87,6 @@ export const Overview = class {
     this._disableHotKeys()
     this._disableExtraShortcut()
     this._disableClickToExit()
-    this._disableMinimizeTopmostHotkey()
   }
 
   toggleDash(visible) {
