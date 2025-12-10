@@ -87,6 +87,7 @@ export const Overview = class {
     this._disableHotKeys()
     this._disableExtraShortcut()
     this._disableClickToExit()
+    this._disableMinimizeTopmostHotkey()
   }
 
   toggleDash(visible) {
@@ -485,6 +486,70 @@ export const Overview = class {
         else this._disableHotKeys()
       },
     ])
+    
+    // Minimize topmost window hotkey
+    this._enableMinimizeTopmostHotkey()
+  }
+  
+  _enableMinimizeTopmostHotkey() {
+    Utils.addKeybinding('minimize-topmost', SETTINGS, () => this._minimizeTopmostWindow())
+  }
+  
+  _disableMinimizeTopmostHotkey() {
+    Utils.removeKeybinding('minimize-topmost')
+  }
+  
+  _minimizeTopmostWindow() {
+    console.log('_minimizeTopmostWindow() called - dash-to-panel')
+    
+    // Mouse'un bulunduğu monitörü bul
+    let [mouseX, mouseY] = global.get_pointer()
+    let targetMonitor = null
+    
+    for (let panel of this._panel.panelManager.allPanels) {
+      let monitor = panel.monitor
+      if (mouseX >= monitor.x && mouseX < monitor.x + monitor.width &&
+          mouseY >= monitor.y && mouseY < monitor.y + monitor.height) {
+        targetMonitor = monitor
+        break
+      }
+    }
+    
+    if (!targetMonitor) {
+      console.log('Could not determine target monitor')
+      return
+    }
+    
+    console.log(`Target monitor: ${targetMonitor.index}`)
+    
+    // Bu monitördeki tüm pencereleri al
+    let workspace = Utils.DisplayWrapper.getWorkspaceManager().get_active_workspace()
+    let windows = workspace.list_windows()
+    
+    // En üstteki pencereyi bul (en yüksek user_time ve doğru monitörde)
+    let topmostWindow = null
+    let highestUserTime = 0
+    
+    for (let win of windows) {
+      // Skip pencereleri atla (desktop, dock, etc)
+      if (win.skip_taskbar) continue
+      
+      // Sadece bu monitördeki pencereleri kontrol et
+      if (win.get_monitor() === targetMonitor.index) {
+        let userTime = win.get_user_time()
+        if (userTime > highestUserTime) {
+          highestUserTime = userTime
+          topmostWindow = win
+        }
+      }
+    }
+    
+    if (topmostWindow) {
+      console.log(`Minimizing window: ${topmostWindow.get_title()}`)
+      topmostWindow.minimize()
+    } else {
+      console.log('No window found to minimize')
+    }
   }
 
   _resetHotkeys() {
